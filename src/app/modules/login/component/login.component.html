@@ -1,0 +1,26 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+    <h1>LOGIN</h1>
+  
+    <div class="form-div">
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="username">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input [type]="show ? 'text' : 'password'" matInput formControlName="password">
+        <mat-icon id="toggle-password" (click)="togglePassword()">remove_red_eye</mat-icon>
+      </mat-form-field>
+    </div>
+  
+    <div id="auth-error-div">
+      <p *ngIf="authError">{{authError}}</p>
+    </div>
+  
+    <button *ngIf="!loading" type="submit" [disabled]="!loginForm.valid"
+      [ngStyle]="{'cursor': !loginForm.valid ? 'default' : 'pointer'}">Submit</button>
+    <button *ngIf="loading" [disabled]="true">Loading...</button>  
+  
+  </form>
