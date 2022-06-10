@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { take } from 'rxjs/operators';
+import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
   public loading: boolean = false;
   public authError: string = '';
 
-  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService) { 
+  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService, public loadingService: LoadingService) { 
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
@@ -44,7 +45,18 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     const val = this.loginForm.value;
     if (val?.username && val?.password) {
-      this.loginService.login(val.username, val.password).pipe(take(1)).subscribe((data: any) => console.log('data', data));
+      this.loginService.login(val.username, val.password).pipe(take(1)).subscribe({
+        next: () => {
+          console.log('success');
+          this.router.navigate(['account']);
+          this.loading = false;
+        },
+        error: (error) => {
+          console.log('error', error);
+          this.authError = error;
+          this.loading = false;
+        }
+      });
     }
   }
 }
