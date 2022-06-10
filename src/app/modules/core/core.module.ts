@@ -5,8 +5,11 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent],
@@ -16,8 +19,21 @@ import {MatIconModule} from '@angular/material/icon';
     ReactiveFormsModule,
     MatProgressBarModule,
     MatFormFieldModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule,
+    RouterModule,
+    MatInputModule
   ],
-  exports: [HeaderComponent, FooterComponent, MatToolbarModule, ReactiveFormsModule, MatProgressBarModule, MatFormFieldModule, MatIconModule]
+  exports: [
+    HeaderComponent,
+    FooterComponent, 
+    MatToolbarModule,
+    ReactiveFormsModule, 
+    MatProgressBarModule,
+    MatFormFieldModule, 
+    MatIconModule, 
+    MatButtonModule,
+    MatInputModule
+  ]
 })
 export class CoreModule { }
