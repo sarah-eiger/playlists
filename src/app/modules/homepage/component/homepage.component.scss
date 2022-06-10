@@ -1,0 +1,28 @@
+@import "src/styles";
+
+#main-homepage-div {
+    color: $primary-color;
+    display: flex;
+    padding: 150px;
+    font-size: 50px;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 200px;
+    align-items: flex-end;
+    width: 400px;
+
+    mat-icon {
+        height: 40px;
+        width: 40px;
+        font-size: 40px;
+    }
+    
+    .subtitle {
+        font-size: 20px;
+        margin-left: 35px;
+    }
+
+    button {
+        margin-left: 35px;
+    }
+}
