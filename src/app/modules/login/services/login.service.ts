@@ -15,15 +15,9 @@ export class LoginService {
   constructor(private http: HttpClient, private cookieService: CookieService, private authApiService: AuthApiService) { }
 
   login(username: string, password: string): Observable<any> {
-    console.log('encodedU', username);
-    console.log('encodedP', password);
-
     //encode data using Base64 before sending to BE to ensure its transferred correctly
     const encodedUsername = btoa(username);
     const encodedPassword = btoa(password);
-
-    console.log('encodedU', encodedUsername);
-    console.log('encodedP', encodedPassword);
 
     return this.authApiService.authenticate(encodedUsername, encodedPassword).pipe(take(1), tap(console.log), map(user => {
       localStorage.clear();

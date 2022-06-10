@@ -1,5 +1,5 @@
 <app-header></app-header>
-<mat-progress-bar mode="indeterminate" id="requestIndicator" *ngIf="loading"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" id="loading-bar" *ngIf="loadingService.loadingSubject$ | async"></mat-progress-bar>
 <div class="app-content">
     <router-outlet></router-outlet>
 </div>

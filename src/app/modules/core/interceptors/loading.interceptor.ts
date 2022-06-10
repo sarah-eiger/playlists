@@ -34,6 +34,7 @@ export class LoadingInterceptor implements HttpInterceptor {
      */
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.loadingService.loadingSubject$.next(true);
+        console.log('loading');
         this.requests.push(request);
         // We create a new observable which we return instead of the original
         return new Observable(observer => {

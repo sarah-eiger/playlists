@@ -10,6 +10,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './modules/core/interceptors/auth.interceptor';
 import { ErrorHandlerInterceptor } from './modules/core/interceptors/error-handler.interceptor';
 import { FakeBackendInterceptor } from './modules/core/interceptors/fake-backend';
+import { LoadingInterceptor } from './modules/core/interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,11 @@ import { FakeBackendInterceptor } from './modules/core/interceptors/fake-backend
     HttpClientModule
   ],
   providers: [CanLoadGuard, 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
