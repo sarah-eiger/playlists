@@ -1,6 +1,6 @@
 <app-header></app-header>
 <mat-progress-bar mode="indeterminate" id="loading-bar" *ngIf="loadingService.loadingSubject$ | async"></mat-progress-bar>
-<div class="app-content">
-    <router-outlet></router-outlet>
+<div [@fadeAnimation]="prepareRoute(outlet)" class="app-content">
+    <router-outlet #outlet="outlet"></router-outlet>
 </div>
 <app-footer></app-footer>
