@@ -71,8 +71,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function authenticate(): Observable<HttpResponse<User[]>> {
             const { username, password } = body;
             const user: User | undefined = that.users.find(x => x.username === atob(username) && x.password === atob(password));
-            if (!user) return error('Email or password is incorrect. Please try again.');
-            return ok([{
+            if (!user) return error('Username or password is incorrect. Please try again.');
+            return ok({
                 id: user?.id,
                 username: user?.username,
                 firstName: user?.firstName,
@@ -80,7 +80,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 password: user?.password,
                 // favourites: user?.favourites,
                 token: 'fake-auth-token'
-            }])
+            })
         }
 
         function getPlaylists(): Observable<HttpResponse<FeaturedPlaylists[]>> {
