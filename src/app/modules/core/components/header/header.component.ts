@@ -19,7 +19,7 @@ export class HeaderComponent {
     this.user$ = this.store.select(selectUser); //get users from store to display on the template
   }
 
-  logout() {
+  public logout() {
     this.authService.logout()
   }
 }

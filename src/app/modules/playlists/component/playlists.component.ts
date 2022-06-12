@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Playlist } from '../models/playlist.models';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,15 +12,18 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./playlists.component.scss']
 })
 export class PlaylistsComponent implements AfterViewInit {
+  constructor(private route: ActivatedRoute, private cdRef : ChangeDetectorRef) { }
 
-  constructor(private route: ActivatedRoute) { }
-
+  //Our dataSource gets its value from the route (implemented in playlist.resolver.ts)
   public dataSource: MatTableDataSource<Playlist> = new MatTableDataSource<Playlist>(this.route.snapshot.data['playlistData'].content);
-  public playlists$: Observable<Playlist[]> = this.dataSource.connect();
+  public playlists$: Observable<Playlist[]> = this.dataSource.connect(); //connect to a dataSource so we can enable pagination and filtering
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.cdRef.detectChanges(); //have to manually detect changes to prevent ExpressionChangedAfterItHasBeenCheckedError
   }
 
   /**

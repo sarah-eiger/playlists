@@ -3,14 +3,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HomepageComponent } from './homepage.component';
 
-fdescribe('HomepageComponent', () => {
+describe('HomepageComponent', () => {
   let component: HomepageComponent;
   let fixture: ComponentFixture<HomepageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HomepageComponent],
-      imports: [RouterTestingModule, MatIconModule],
+      imports: [RouterTestingModule, MatIconModule]
     })
       .compileComponents();
   });

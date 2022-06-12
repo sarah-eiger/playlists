@@ -3,5 +3,5 @@
     <span class="spacer"></span>
     <button mat-button routerLink="playlists" routerLinkActive="active" aria-label="Go to playlists">Playlists</button>
     <button mat-button routerLink="account" routerLinkActive="active" aria-label="Go to account">Account</button>
-    <button mat-button *ngIf="user$ | async" (click)="logout()" aria-label="Logout">Log Out</button>
+    <button mat-button id="logout-button" *ngIf="user$ | async" (click)="logout()" aria-label="Logout">Log Out</button>
 </mat-toolbar>
