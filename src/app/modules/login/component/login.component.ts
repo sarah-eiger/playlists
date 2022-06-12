@@ -47,12 +47,10 @@ export class LoginComponent implements OnInit {
     if (val?.username && val?.password) {
       this.loginService.login(val.username, val.password).pipe(take(1)).subscribe({
         next: () => {
-          console.log('success');
           this.router.navigate(['account']);
           this.loading = false;
         },
         error: (error) => {
-          console.log('error', error);
           this.authError = error;
           this.loading = false;
         }

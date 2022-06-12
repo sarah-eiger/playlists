@@ -1,16 +1,19 @@
 @import 'src/styles.scss';
 
-#page-title {
-    cursor: pointer;
-}
-
-.spacer {
-    flex: 1 1 auto;
-}
-
-.active {
-    border: solid;
-    border-width: 0.5px;
-    border-color: $secondary-color;
-    border-radius: 0px;
+#app-header {
+    min-width: fit-content;
+    #page-title {
+        cursor: pointer;
+    }
+    
+    .spacer {
+        flex: 1 1 auto;
+    }
+    
+    .active {
+        border: solid;
+        border-width: 0.5px;
+        border-color: $secondary-color;
+        border-radius: 0px;
+    }
 }

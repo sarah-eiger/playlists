@@ -1,6 +1,7 @@
-<mat-toolbar color="primary">
-    <span routerLink="homepage" id="page-title" class="logo-font"><mat-icon>skip_next</mat-icon>soundwaves</span>
+<mat-toolbar id="app-header" color="primary">
+    <span routerLink="homepage" id="page-title" class="logo"><mat-icon>skip_next</mat-icon>soundwaves</span>
     <span class="spacer"></span>
-    <button routerLink="playlists" routerLinkActive="active" mat-button aria-label="Go to playlists">Playlists</button>
-    <button routerLink="account" routerLinkActive="active" mat-button aria-label="Go to account">Account</button>
+    <button mat-button routerLink="playlists" routerLinkActive="active" aria-label="Go to playlists">Playlists</button>
+    <button mat-button routerLink="account" routerLinkActive="active" aria-label="Go to account">Account</button>
+    <button mat-button *ngIf="user$ | async" (click)="logout()" aria-label="Logout">Log Out</button>
 </mat-toolbar>

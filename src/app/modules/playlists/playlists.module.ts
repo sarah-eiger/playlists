@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlaylistsComponent } from './component/playlists.component';
 import { RouterModule, Routes } from '@angular/router';
+import { CoreModule } from '../core/core.module';
 
 const playlistRoutes: Routes = [
   {
@@ -14,7 +15,7 @@ const playlistRoutes: Routes = [
   declarations: [PlaylistsComponent],
   imports: [
     CommonModule,
-    RouterModule, //TODO: do I need this??
+    CoreModule,
     RouterModule.forChild(playlistRoutes)
   ]
 })

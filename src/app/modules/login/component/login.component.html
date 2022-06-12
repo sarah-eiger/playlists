@@ -1,16 +1,16 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-    <h1>LOGIN</h1>
+    <h2>LOGIN</h2>
   
     <div class="form-div">
-      <mat-form-field appearance="fill">
+      <mat-form-field class="login-input" appearance="fill">
         <mat-label>Username</mat-label>
-        <input matInput placeholder="Username" type="text" formControlName="username">
+        <input matInput placeholder="Username" type="text" formControlName="username" autocomplete="new-password">
       </mat-form-field>
   
-      <mat-form-field appearance="fill">
+      <mat-form-field class="login-input" appearance="fill">
         <mat-label>Password</mat-label>
-        <input matInput placeholder="Password" [type]="show ? 'text' : 'password'" formControlName="password">
+        <input matInput placeholder="Password" [type]="show ? 'text' : 'password'" formControlName="password" autocomplete="new-password">
         <mat-icon id="toggle-password" (click)="togglePassword()">remove_red_eye</mat-icon>
       </mat-form-field>
     </div>
@@ -20,7 +20,7 @@
     </div>
   
     <button mat-flat-button color="primary" *ngIf="!loading" type="submit" [disabled]="!loginForm.valid"
-      [ngStyle]="{'cursor': !loginForm.valid ? 'default' : 'pointer'}">Submit</button>
+      [ngStyle]="{'cursor': !loginForm.valid ? 'default' : 'pointer'}">Login</button>
     <button mat-flat-button color="primary" *ngIf="loading" [disabled]="true">Loading...</button>  
   
   </form>

@@ -1,1 +1,3 @@
-<p>account works!</p>
+<div *ngIf="user$ | async as user" class="translucent-div">
+    <span id="account-heading">Welcome, {{user?.firstName}} {{user?.lastName}}!</span>
+</div>

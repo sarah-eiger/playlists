@@ -12,6 +12,9 @@ import { ErrorHandlerInterceptor } from './modules/core/interceptors/error-handl
 import { FakeBackendInterceptor } from './modules/core/interceptors/fake-backend';
 import { LoadingInterceptor } from './modules/core/interceptors/loading.interceptor';
 
+import { StoreModule } from "@ngrx/store";
+import { userReducer } from './store/reducers/user.reducer';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +24,8 @@ import { LoadingInterceptor } from './modules/core/interceptors/loading.intercep
     AppRoutingModule,
     BrowserAnimationsModule,
     CoreModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({ user: userReducer })
   ],
   providers: [CanLoadGuard, 
     {

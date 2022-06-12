@@ -2,6 +2,11 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LoadingService } from './modules/core/services/loading.service';
+import { Store } from '@ngrx/store';
+import { setUser } from './store/actions/user.actions';
+import { selectUser } from './store/selectors/user.selectors';
+import { AuthApiService } from './api/auth-api.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -19,9 +24,20 @@ import { LoadingService } from './modules/core/services/loading.service';
 export class AppComponent {
   public loading: boolean = false;
 
-  constructor(public loadingService: LoadingService) { }
+  constructor(public loadingService: LoadingService, private store: Store, private authApiService: AuthApiService) {
+   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (localStorage.getItem('currentUserId')) {
+      //TODO: get user from ID
+      const userId = parseInt(localStorage.getItem('currentUserId') as string);
+      this.authApiService.getUser(userId).pipe(take(1)).subscribe(user => {
+        console.log('user', user);
+        this.store.dispatch(setUser({user}));
+      })
+    }
+
+  }
 
   public prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet?.activatedRouteData;

@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import {MatInputModule} from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent],
@@ -22,7 +24,9 @@ import {MatInputModule} from '@angular/material/input';
     MatIconModule,
     MatButtonModule,
     RouterModule,
-    MatInputModule
+    MatInputModule,
+    MatCardModule,
+    MatPaginatorModule
   ],
   exports: [
     HeaderComponent,
@@ -33,7 +37,9 @@ import {MatInputModule} from '@angular/material/input';
     MatFormFieldModule, 
     MatIconModule, 
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    MatCardModule,
+    MatPaginatorModule
   ]
 })
 export class CoreModule { }

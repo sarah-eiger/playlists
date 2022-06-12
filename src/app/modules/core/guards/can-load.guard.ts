@@ -13,12 +13,10 @@ export class CanLoadGuard implements CanLoad {
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     const authToken = this.loginService.getAuthCookie();
     if (!!authToken) {
-      console.log('can load');
       return true;
     } else {
       this.loginService.logout();
       this.router.navigate(['login']);
-      console.log('cannot load');
       return false;
     }
   }

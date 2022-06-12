@@ -1,1 +1,23 @@
-<p>playlists works!</p>
+<div id="playlist-controls">
+    <div>
+        <mat-form-field appearance="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>
+        </mat-form-field>
+        <mat-icon (click)="clearFilter(input)">clear</mat-icon>
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="25" aria-label="Select page of users"></mat-paginator>
+</div>
+
+<div id="playlist-container" >
+    <ng-container *ngFor="let playlist of playlists$ | async">
+        <mat-card (click)="navigateToPlaylist(playlist.url)">
+            <mat-card-header>
+                <mat-card-title>{{playlist.name}}</mat-card-title>
+                <mat-card-subtitle>{{playlist.curator_name}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image [src]="playlist.artwork" alt="Playlist photo">
+        </mat-card>
+    </ng-container>
+</div>

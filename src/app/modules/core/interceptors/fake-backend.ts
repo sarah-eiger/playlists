@@ -57,6 +57,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return authenticate();
                 case url.endsWith('/playlists/getPlaylists') && method === 'GET':
                     return getPlaylists();
+                case url.endsWith('/users/getUser') && method === 'GET':
+                    return getUser();
                 default:
                     // pass on any requests not handled above
                     return next.handle(request);
@@ -78,7 +80,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 firstName: user?.firstName,
                 lastName: user?.lastName,
                 password: user?.password,
-                // favourites: user?.favourites,
                 token: 'fake-auth-token'
             })
         }
@@ -87,6 +88,21 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             if (!featuredPlaylists) return error('No playlists found!')
             return ok(featuredPlaylists)
         };
+
+        function getUser(): Observable<HttpResponse<User[]>> {
+            const userId = request.params.get('userId')
+            const user: User | undefined = that.users.find(x => x.id.toString() === userId);
+            console.log('found user', user);
+            if (!user) return error('No user found! Please try again.');
+            return ok({
+                id: user?.id,
+                username: user?.username,
+                firstName: user?.firstName,
+                lastName: user?.lastName,
+                password: user?.password,
+                token: 'fake-auth-token'
+            })
+        }
 
         // ******* helper functions ******* //
         function ok(body?: any): Observable<HttpResponse<any>> {

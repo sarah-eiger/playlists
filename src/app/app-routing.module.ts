@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CanLoadGuard } from './modules/core/guards/can-load.guard';
+import { CanActivateGuard } from './modules/core/guards/can-activate.guard';
 import { PlaylistResolver } from './modules/core/resolvers/playlist.resolver';
 
 const routes: Routes = [
@@ -23,7 +24,8 @@ const routes: Routes = [
     path: 'account',
     loadChildren: () =>
       import('./modules/account/account.module').then(m => m.AccountModule),
-    canLoad: [CanLoadGuard]
+    canLoad: [CanLoadGuard],
+    canActivate: [CanActivateGuard]
   },
 
   {

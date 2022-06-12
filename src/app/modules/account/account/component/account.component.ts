@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { User } from 'src/app/modules/login/models/login-models';
+import { Store } from '@ngrx/store';
+import { selectUser } from 'src/app/store/selectors/user.selectors';
 
 @Component({
   selector: 'app-account',
@@ -7,9 +11,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountComponent implements OnInit {
 
-  constructor() { }
+  public user$: Observable<User | null> = new Observable();
 
-  ngOnInit(): void {
+  constructor(private store: Store) { 
+    this.user$ = this.store.select(selectUser);
   }
+  
+  ngOnInit(): void { }
 
 }
