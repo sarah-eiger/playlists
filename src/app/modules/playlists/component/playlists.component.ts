@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Playlist } from '../models/playlist.models';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,7 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './playlists.component.html',
   styleUrls: ['./playlists.component.scss']
 })
-export class PlaylistsComponent implements OnInit, AfterViewInit {
+export class PlaylistsComponent implements AfterViewInit {
 
   constructor(private route: ActivatedRoute) { }
 
@@ -19,17 +19,23 @@ export class PlaylistsComponent implements OnInit, AfterViewInit {
   public playlists$: Observable<Playlist[]> = this.dataSource.connect();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  ngOnInit(): void { }
-
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
-  navigateToPlaylist(url: string) {
+  /**
+   * Navigates to the playlist on click of the mat-card
+   * @param {string} url - the navigation address
+   */
+  public navigateToPlaylist(url: string): void {
     window.open(url, "_blank")
   }
 
-  applyFilter(event: Event) {
+  /**
+   * Applies filter to our data when typing in the filter field
+   * @param {Event} event - the input event
+   */
+  public applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
@@ -37,6 +43,10 @@ export class PlaylistsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Clears our filter value
+   * @param {HTMLInputElement} filterInput - our filter input element
+   */
   public clearFilter(filterInput: HTMLInputElement): void {
     this.dataSource.filter = '';
     filterInput.value = '';

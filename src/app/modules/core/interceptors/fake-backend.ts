@@ -5,32 +5,16 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { User } from '../../login/models/login-models';
 import { FeaturedPlaylists } from '../../playlists/models/playlist.models';
 import { featuredPlaylists } from 'src/app/api/mock-database';
+import { users } from 'src/app/api/mock-database';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
 
+    private users: User[] = users;
+
     constructor() { }
 
-    //our fake database
-    private users: User[] = [
-        {
-            id: 1,
-            username: 'test',
-            password: 'test',
-            firstName: 'Sarah',
-            lastName: 'Eiger'
-        },
-        {
-            id: 2,
-            username: 'test1',
-            password: 'test2',
-            firstName: 'John',
-            lastName: 'Smith'
-        }
-    ];
-
     /**
-     * This is the final interceptor that is called
      * This interceptor handles all http request and mocks a backend response
      * @param {HttpRequest<any>} request - any HTTP request
      * @param {HttpHandler} next - transforms an HttpRequest into a stream of HttpEvents, one of which will likely be an HttpResponse
@@ -42,13 +26,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         return of(null) //empty observable wrapper
             .pipe(mergeMap(handleRoute)) //first, calls our handleRoute function which creates our HTTP response
-            .pipe(materialize()) //then call materialize, delay and dematerialize to ensure delay even if an error is thrown
+            .pipe(materialize()) //then call materialize, delay and dematerialize to mimic a delayed backend response
             .pipe(delay(1500))
             .pipe(dematerialize());
 
 
         /**
          * Takes the route from our request URL and sends us onwards to the correct function(s)
+         * These are all of the httpRequests that exist in the app
          * @returns {Observable<HttpEvent<any>>}
          */
         function handleRoute(): Observable<HttpEvent<any>> {
@@ -84,16 +69,23 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             })
         }
 
+        /**
+         * Gets all of the playlists
+         * @returns {Observable<HttpResponse<FeaturedPlaylists[]>>} - returns our playlists in a 200 response; or an error
+         */
         function getPlaylists(): Observable<HttpResponse<FeaturedPlaylists[]>> {
             if (!featuredPlaylists) return error('No playlists found!')
             return ok(featuredPlaylists)
         };
 
+        /**
+         * Gets a specific user given a userID
+         * @returns {Observable<HttpResponse<User[]>>} - returns one user in a 200 response; or an error
+         */
         function getUser(): Observable<HttpResponse<User[]>> {
             const userId = request.params.get('userId')
             const user: User | undefined = that.users.find(x => x.id.toString() === userId);
-            console.log('found user', user);
-            if (!user) return error('No user found! Please try again.');
+            if (!user) return error(`No user found given the user ID ${userId}.`);
             return ok({
                 id: user?.id,
                 username: user?.username,
@@ -104,11 +96,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             })
         }
 
-        // ******* helper functions ******* //
+        /**
+         * Creates an ok response
+         * @param {any} body
+         * @returns {Observable<HttpResponse<any>> }
+         */
         function ok(body?: any): Observable<HttpResponse<any>> {
             return of(new HttpResponse({ status: 200, body }))
         }
 
+        /**
+         * Creates an error response
+         * @param {string} message 
+         * @returns {Observable<never>}
+         */
         function error(message: string): Observable<never> {
             return throwError(() => new Error(message));
         }

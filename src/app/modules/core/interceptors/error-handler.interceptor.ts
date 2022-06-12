@@ -11,8 +11,16 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
 
   constructor() { }
 
-  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<any> {
-    return next.handle(req).pipe(
+  /**
+   * Handles all of our errors
+   * It will add a timeout and a retry before failing requests
+   * It throws an error, which will show in our console
+   * @param {HttpRequest<any>} request - our request
+   * @param {HttpHandler} next - transforms our request into a response
+   * @returns {Observable<any>}
+   */
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any> {
+    return next.handle(request).pipe(
       timeout(10000),
       retry(1),
       catchError((error: any): any => {
@@ -22,7 +30,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         } else {
           errorMessage = `Error Status: ${error.status}\nMessage: ${error.message}`;
         }
-        console.log(errorMessage);
         return throwError(() => new Error(errorMessage));
       })
     );

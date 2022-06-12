@@ -1,30 +1,29 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
-import {LoginService} from '../../login/services/login.service'
+import { CanLoad, Router } from '@angular/router';
+import {AuthService} from '../services/auth.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CanLoadGuard implements CanLoad {
 
-  constructor(private loginService: LoginService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
-  canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    const authToken = this.loginService.getAuthCookie();
+  /**
+   * We use the CanLoad route guard for the 'Account' route
+   * It prevents initial load, saving memory
+   * We check if we have an auth-token in our cookies (it expires after 1 hour)
+   * If the auth-token has expired, or a user is not logged in, we cannot go to the 'Account' page and we reroute to 'Login'
+   * @returns {boolean}
+   */
+  canLoad(): boolean {
+    const authToken = this.authService.getAuthCookie();
     if (!!authToken) {
       return true;
     } else {
-      this.loginService.logout();
+      this.authService.logout();
       this.router.navigate(['login']);
       return false;
     }
   }
-  
-  // canActivate(
-  //   route: ActivatedRouteSnapshot,
-  //   state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-  //   return true;
-  // }
-  
 }

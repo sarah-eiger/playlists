@@ -9,9 +9,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
-import {MatInputModule} from '@angular/material/input';
-import {MatCardModule} from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
+
+/** STORES ALL CORE COMPONENTS AND MATERIAL MODULES */
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent],
@@ -30,12 +32,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   ],
   exports: [
     HeaderComponent,
-    FooterComponent, 
+    FooterComponent,
     MatToolbarModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     MatProgressBarModule,
-    MatFormFieldModule, 
-    MatIconModule, 
+    MatFormFieldModule,
+    MatIconModule,
     MatButtonModule,
     MatInputModule,
     MatCardModule,

@@ -4,6 +4,5 @@ export interface User {
     password: string;
     firstName: string;
     lastName: string;
-    // favourites: Array<number>;
     token?: string;
 }

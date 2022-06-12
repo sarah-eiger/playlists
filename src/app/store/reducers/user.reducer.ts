@@ -9,7 +9,8 @@ export const initialState: AppState = {
 export const userReducer = createReducer(
     initialState,
     on(setUser, (state, { user }) => {
-        localStorage.setItem('currentUserId', JSON.stringify(user.id));
+        //add to localstorage so we can get user data on page refresh
+        localStorage.setItem('currentUserId', JSON.stringify(user.id)); 
         return ({ ...state, user: user })
     }),
     on(removeUser, (state) => {
