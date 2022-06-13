@@ -1,6 +1,6 @@
 # Playlists
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.3. It is an application which has 4 pages - a homepage, a playlists page, a login page and an account page.
+This is an application written in Angular 13.3.3. It is an application which has 4 pages - a homepage, a playlists page, a login page and an account page.
 
 ## Development server
 
@@ -20,7 +20,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Here is a brief overview of the architecture of the application:
 - app:
-    - api: folder containing our mock database (playlists and users) as well as our api requests to fetch this data
+    - api: folder containing our mock database (playlists and users) as well as our API requests to fetch this data
     - modules: our main modules folder
        - account: account component
        - core: core components (header and footer)/services/guards/interceptors/resolvers used accross the application
@@ -29,7 +29,7 @@ Here is a brief overview of the architecture of the application:
        - playlists: playlists component
     - store: our ngrx store, used here to store the user state
     - app-routing.module: lazily loads modules and integrates guards/resolvers
-    - app-component: displays views using router outlet and handles routing animation
+    - app-component: displays views using router outlet and handles routing animation. OnInit, we also set a user state in the store if there is a stored userId in localStorage
     - app.module: main app module
 
 ## Technical overview
@@ -44,13 +44,13 @@ We also use one resolver in our routing - playlists.resolver - which loads playl
 
 ### APIs
 
-I have two different API services - an auth-api.service, and a playlist-api.service. AuthAPI has an authenticate function, which is a POST request to authenticate a user's details when they login. It also has a GET request to retrieve a user based on user ID, which we use on initial app load so users are not logged out after page refresh. PlaylistAPI has one GET request - getPlaylists() - which loads our playlist data. In the api folder, I also have our mock-database, which stores user and playlist details. I wanted to call the playlist endpoint directly instead of storing the data, but I was getting CORS errors, so I copied the JSON content into the mock-database file instead.
+I have two different API services - an auth-api.service, and a playlist-api.service. AuthAPI has an authenticate function, which is a POST request to authenticate a user's details when they login. It also has a GET request to retrieve a user based on user ID, which we use on initial app load so users are not logged out after page refresh. PlaylistAPI has one GET request - getPlaylists() - which loads our playlist data. In the SPI folder, I also have our mock-database, which stores user and playlist details. I wanted to call the playlist endpoint directly instead of storing the data, but I was getting CORS errors, so I copied the JSON content into the mock-database file instead.
 
 ### Interceptors
 
 There are 4 interceptors in this application. 
 
-The loading interceptor, which stores any running http requests and updates the loadingSubject in the loading.service.ts file. The app.component listens to this subject, and displays a loading bar if any requests are currently in progress; and removes the loading bar when they stop.
+The loading interceptor, which stores any running HTTP requests and updates the loadingSubject in the loading.service.ts file. The app.component listens to this subject, and displays a loading bar if any requests are currently in progress; and removes the loading bar when they stop.
 
 The auth interceptor adds an authentication token (if available) and a few headers (content-type, accept) to all requests. This is where we would continue to add any data we would want to add to every request. My APIs currently do not require an auth token, but if this were a live app, I would put this in place for security reasons.
 
@@ -58,7 +58,7 @@ The fake-backend interceptor basically mimics a backend. Here is where all reque
 
 The error interceptor is where all errors are caught and handled. Ideally, this would be linked to an error-dialog, which could pop-up to display any relevant error messages to the user. But for now, errors are logged in the console.
 
-### auth.service
+### Auth Service
 
 This service does the main workings for our user authentication, and communicates between our APIs, interceptors and components. I originally stored the service in the login module, but realised it had utility across the app. For example, our guards use the 'logout' function if it notices our authentication cookie has expired; our header calls logout() when we click the logout button; and our auth.interceptor and guards call getAuthCookie() to check a users authorization status. 
 
@@ -76,7 +76,7 @@ Statically coded, very simple.
 
 ### Login Module
 
-Utilises Angular reactive forms to handle username and password values. 'Required' validators are implemented. 'Login' button is disabled if the login form is invalid. Login can be tested with `username: test password: test`; or `username: test1 password: test1`. An error div will show if login throws an error response (can test by typing any unknown username/password value). Password input can be toggled to show/hide value. Whilst login is loading, the 'Login' button will display as disabled 'Loading' button.
+Utilises Angular reactive forms to handle username and password values. 'Required' validators are implemented. 'Login' button is disabled if the login form is invalid. Login can be tested with `username: test password: test`; or `username: test1 password: test2`. An error div will show if login throws an error response (can test by typing any unknown username/password value). Password input can be toggled to show/hide value. Whilst login is loading, the 'Login' button will display as disabled 'Loading' button.
 
 ### Playlists Module
 
@@ -90,8 +90,10 @@ Here we store the user state. It is currently the only state being managed in th
 
 I found the set-up quite challenging - last time I implemented a store (and the way it is in our own apps) is different to the current version of NgRx, so I had to re-learn how to set it all up. There aren't too many guides around with the newest version, so I took intruction from the official ngrx.io docs.
 
+One thing I spent time considering was how to ensure we still have user data after page refresh, as I would not want a user to be automatically logged out. I noticed state is deleted when we refresh the page, so I needed to ensure it was stored. Because I am only storing user data, I did not do a full implementation of linking store to localStorage. I instead set/clear localStorage in the user reducers manually. If this were a bigger project, perhaps I would integrate a library which would automatically link store data to localStorage or write this manually.
+
 ### Tests
 
-I found these took a bit of time to implememnt, as it's been about 10 months since I last wrote unit tests, so I again kind of had to re-learn how they worked, and it's another part of Angular which changes convention all of the time. I tried to aim for at least 80% coverage. 
+I tried to aim for at least 80% unit test coverage. If this was a production application, I would also like to see some E2E tests, to ensure the whole user journey is covered (e.g. with Cypress), however, I considered it out of scope for this, as in such a small app, unit tests provide sufficient confidence.
 
 If I had more time, I would like to have implemented better store and resolver testing. These were two things I haven't written unit tests for before (I previously have only really tested components), so my tests for these things are quite brief and simple, and I am sure they could be improved.
