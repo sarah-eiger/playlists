@@ -19,7 +19,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Skeleton overview
 
 Here is a brief overview of the architecture of the application:
-    -app:
+    *app:
     ---api: folder containing our mock data (playlists and users) as well as our api requests to fetch this data
     --- modules: our main modules folder
     ------account: account component
