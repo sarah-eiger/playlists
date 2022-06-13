@@ -3,8 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { LoginComponent } from './login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing'
-import { Observable, of, throwError } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { of, throwError } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -93,6 +92,20 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
     expect(component['onSubmit']).toHaveBeenCalled();
     expect(component['authError']).toBeTruthy;
+  })
+
+  it('should not call authenticate if there is no form value', () => {
+    component.loginForm.controls['username'].markAsPristine();
+    component.loginForm.controls['username'].setValue('');
+    fixture.detectChanges();
+
+    component.loginForm.controls['password'].markAsPristine();
+    component.loginForm.controls['password'].setValue('');
+    fixture.detectChanges();
+
+    spyOn(authService, 'login').and.callThrough();
+    component.onSubmit();
+    expect(authService['login']).not.toHaveBeenCalled();
   })
 
 });

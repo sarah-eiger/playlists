@@ -66,22 +66,9 @@ describe('PlaylistsComponent', () => {
   it('should navigate to a playlist', () => {
     spyOn(component, 'navigateToPlaylist').and.callFake(() => {});
     const playlistCard = fixture.debugElement.query(By.css('mat-card'));
-    console.log('playlistcard', playlistCard);
     playlistCard.nativeElement.click();
     fixture.detectChanges();
     expect(component['navigateToPlaylist']).toHaveBeenCalled();
   })
-
-  it('should navigate to a playlist', () => {
-    let urlString;
-    spyOn(component, 'navigateToPlaylist').and.callFake((url) => urlString = url);
-    const playlistCard = fixture.debugElement.query(By.css('mat-card'));
-    console.log('playlistcard', playlistCard);
-    playlistCard.nativeElement.click();
-    fixture.detectChanges();
-    expect(component['navigateToPlaylist']).toHaveBeenCalled();
-  })
-
-
 
 });

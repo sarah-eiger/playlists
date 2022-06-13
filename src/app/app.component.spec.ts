@@ -55,5 +55,6 @@ describe('AppComponent', () => {
     spyOn(app, 'prepareRoute').and.callThrough();
     const prepareRouteResult = app.prepareRoute({ activatedRouteData: 'testRouteData' } as any);
     expect(prepareRouteResult).toEqual('testRouteData' as any)
-  })
+  });
+
 });
